@@ -14,20 +14,20 @@ export HOME=/root
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 chmod +x /usr/local/bin/composer
-composer create-project --prefer-dist laravel/laravel PROJECT_NAME
-mv PROJECT_NAME /var/www/html/
-chgrp -R www-data /var/www/html/PROJECT_NAME/
-chmod -R 775 /var/www/html/PROJECT_NAME/storage
+composer create-project --prefer-dist laravel/laravel ${PROJECT_NAME}
+mv ${PROJECT_NAME} /var/www/html/
+chgrp -R www-data /var/www/html/${PROJECT_NAME}/
+chmod -R 775 /var/www/html/${PROJECT_NAME}/storage
 echo "<VirtualHost *:80>
          ServerName EC2_IP_ADDRESS
          ServerAdmin webmaster@thedomain.com
-         DocumentRoot /var/www/html/PROJECT_NAME/public
+         DocumentRoot /var/www/html/${PROJECT_NAME}/public
 
-         <Directory /var/www/html/PROJECT_NAME>
+         <Directory /var/www/html/${PROJECT_NAME}>
              AllowOverride All
          </Directory>
-         ErrorLog ${APACHE_LOG_DIR}/error.log
-         CustomLog ${APACHE_LOG_DIR}/access.log combined
+         ErrorLog ~/error.log
+         CustomLog ~/access.log combined
       </VirtualHost>
 " >> /etc/apache2/sites-available/laravel_project.conf
 a2dissite 000-default.conf
