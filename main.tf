@@ -70,9 +70,9 @@ module "ec2_instance" {
 
   name = "laravel-server-terraform"
 
-  ami                    = data.ubuntu-ami.id[0]
+  ami                    = data.aws_ami.ubuntu-ami.id
   instance_type          = "t2.micro"
-  key_name               = data.aws_key_pair.key_name
+  key_name               = data.aws_key_pair.webserver-ssh-key.key_name
   monitoring             = true
   vpc_security_group_ids = [module.public-web-server-sg.security_group_id]
   subnet_id              = module.vpc.private_subnets[0]
