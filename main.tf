@@ -80,7 +80,7 @@ module "ec2_instance" {
   vpc_security_group_ids      = [module.public-web-server-sg.security_group_id]
   subnet_id                   = module.vpc.public_subnets[0]
 
-  user_data = templatefile("cloud_init.sh",
+  user_data = templatefile("user_data_script.sh",
     {
       "DB_ROOT_PASSWORD" = "12345",
       "PROJECT_NAME"     = "divaaco"
