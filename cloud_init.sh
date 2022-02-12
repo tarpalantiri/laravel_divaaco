@@ -1,4 +1,5 @@
 #!/bin/bash
+PUBLIC_IP_ADDRESS=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
 apt update
 apt upgrade -y
 apt install php libapache2-mod-php php-mbstring php-xmlrpc php-soap php-gd php-xml php-cli php-zip php-bcmath php-tokenizer php-json php-pear mariadb-server -y
@@ -19,7 +20,7 @@ mv ${PROJECT_NAME} /var/www/html/
 chgrp -R www-data /var/www/html/${PROJECT_NAME}/
 chmod -R 775 /var/www/html/${PROJECT_NAME}/storage
 echo "<VirtualHost *:80>
-         ServerName EC2_IP_ADDRESS
+         ServerName $PUBLIC_IP_ADDRESS
          ServerAdmin webmaster@thedomain.com
          DocumentRoot /var/www/html/${PROJECT_NAME}/public
 
