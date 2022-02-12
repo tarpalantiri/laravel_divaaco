@@ -30,3 +30,7 @@ override.tf.json
 
 # IntelliJ Files
 .idea/*
+
+
+# terraform lock file
+.terraform.lock.hcl
