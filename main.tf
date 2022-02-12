@@ -4,8 +4,8 @@ provider "aws" {
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
-  name = "prod-vpc"
-  cidr = "192.168.0.0/23"
+  name   = "prod-vpc"
+  cidr   = "192.168.0.0/23"
 
   azs             = ["us-east-1a", "us-east-1b"]
   private_subnets = ["192.168.0.0/24"]
@@ -39,9 +39,9 @@ module "vpc" {
   }
 
   tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = "dev"
-    Name = "terraform-prod-vpc"
+    Name        = "terraform-prod-vpc"
   }
 }
 
@@ -70,12 +70,20 @@ module "ec2_instance" {
 
   name = "laravel-server-terraform"
 
-  ami                    = data.aws_ami.ubuntu-ami.id
-  instance_type          = "t2.micro"
-  key_name               = data.aws_key_pair.webserver-ssh-key.key_name
-  monitoring             = true
-  vpc_security_group_ids = [module.public-web-server-sg.security_group_id]
-  subnet_id              = module.vpc.private_subnets[0]
+  ami                         = data.aws_ami.ubuntu-ami.id
+  instance_type               = "t2.micro"
+  key_name                    = data.aws_key_pair.webserver-ssh-key.key_name
+  associate_public_ip_address = true
+  monitoring                  = true
+  vpc_security_group_ids      = [module.public-web-server-sg.security_group_id]
+  subnet_id                   = module.vpc.public_subnets[0]
+
+  user_data = templatefile("cloud_init.sh",
+    {
+      "DB_ROOT_PASSWORD" = "12345",
+      "PROJECT_NAME"     = "divaaco"
+    }
+  )
 
   tags = {
     Terraform   = "true"
