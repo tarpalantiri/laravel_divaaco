@@ -1,4 +1,4 @@
-data "aws_key_pair" "key" {
+data "aws_key_pair" "webserver-ssh-key" {
   key_name = "my-KP"
 }
 
