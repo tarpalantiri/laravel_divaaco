@@ -26,8 +26,8 @@ echo "<VirtualHost *:80>
          <Directory /var/www/html/${PROJECT_NAME}>
              AllowOverride All
          </Directory>
-         ErrorLog ~/error.log
-         CustomLog ~/access.log combined
+         ErrorLog $APACHE_LOG_DIR/error.log
+         CustomLog $APACHE_LOG_DIR/access.log combined
       </VirtualHost>
 " >> /etc/apache2/sites-available/laravel_project.conf
 a2dissite 000-default.conf
