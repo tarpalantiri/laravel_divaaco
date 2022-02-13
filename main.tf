@@ -17,40 +17,43 @@ module "vpc" {
   enable_vpn_gateway   = true
 
   public_subnet_tags = {
-    Name = "public-subnet"
+    Name = "Public-subnet"
   }
 
   private_subnet_tags = {
-    Name = "private-subnet"
+    Name = "Private-subnet"
   }
 
   igw_tags = {
-    Name = "igw-terraform"
+    Name = "My-IGW-terraform"
   }
 
   nat_gateway_tags = {
-    Name = "natigw-terraform"
+    Name = "NAT-GW-terraform"
+  }
+  nat_eip_tags = {
+    Name = "NAT-Elastic-IP"
   }
 
   public_route_table_tags = {
-    Name = "public-rt"
+    Name = "Public-RT"
   }
 
   private_route_table_tags = {
-    Name = "private-rt"
+    Name = "Private-RT"
   }
 
   tags = {
     Terraform   = "true"
     Environment = "dev"
-    Name        = "terraform-prod-vpc"
+    Name        = "ProdVPC-Terraform"
   }
 }
 
 module "public-web-server-sg" {
   source = "terraform-aws-modules/security-group/aws//modules/http-80"
 
-  name        = "public-web-server-sg"
+  name        = "Web-Server-SG"
   description = "Security group for web-server with HTTP ports open within VPC"
   vpc_id      = module.vpc.vpc_id
 
@@ -70,7 +73,7 @@ module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 3.0"
 
-  name = "laravel-server-terraform"
+  name = "Laravel-Server-Terraform"
 
   ami                         = data.aws_ami.ubuntu-ami.id
   instance_type               = "t2.micro"
